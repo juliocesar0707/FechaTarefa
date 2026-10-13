@@ -1,0 +1,11 @@
+# acesso a conta de quem usa - nunca versionar
+credenciais.json
+sessao.json
+
+# saida de cada execucao (dados de clientes e historico pessoal)
+relatorio.csv
+*.tmp
+log_aplicacao.csv
+erros/
+
+__pycache__/

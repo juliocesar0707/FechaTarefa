@@ -1,0 +1,246 @@
+{
+  "_leia_me": "Casos de regressao das regras. Rode 'python fechaTarefa.py testar' SEMPRE que mexer em regras.json ou config.json - ele diz se alguma mudanca quebrou uma classificacao que ja funcionava. Cada caso tem 'mensagens' (lista, como o historico da tarefa), 'tag_esperada' ('' = nenhuma tag) e, opcionalmente, 'departamento' e 'confianca_esperada'. Quando aparecer uma tag errada numa tarefa real, copie o trecho para ca com a tag certa antes de corrigir a regra.",
+  "casos": [
+    {
+      "nome": "ARMADILHA: 'conectem' nao pode virar CT-e",
+      "mensagens": [
+        "[TendiChat] use sempre o mesmo wi-fi. evite que os terminais se conectem automaticamente a redes de visitantes"
+      ],
+      "tag_esperada": ""
+    },
+    {
+      "nome": "ARMADILHA: 'infelizmente' nao pode virar NF-e",
+      "mensagens": [
+        "[TendiChat] baixar automatico o sistema tem, agora infelizmente nao existe essa funcao"
+      ],
+      "tag_esperada": ""
+    },
+    {
+      "nome": "ARMADILHA: assinatura do tecnico nao decide a tag",
+      "mensagens": [
+        "[TendiChat] *julio cesar* financeiro@maxdatafortaleza.com.br (85) 99999-1234"
+      ],
+      "departamento": "Financeiro",
+      "tag_esperada": ""
+    },
+    {
+      "nome": "ARMADILHA: nome de cliente 'Dicarnes' nao e carne/financeiro",
+      "mensagens": [
+        "[TendiChat] bom dia, aqui e o thiago da dicarnes, tudo certo por ai?"
+      ],
+      "tag_esperada": ""
+    },
+    {
+      "nome": "ARMADILHA: 'capital de giro' nao e API",
+      "mensagens": [
+        "[TendiChat] o cliente comentou que esta sem capital de giro esse mes"
+      ],
+      "tag_esperada": ""
+    },
+    {
+      "nome": "ARMADILHA: 'apagou' nao e pagamento",
+      "mensagens": [
+        "[TendiChat] o usuario apagou o registro sem querer, da para voltar?"
+      ],
+      "tag_esperada": ""
+    },
+    {
+      "nome": "ARMADILHA: 'descontado' nao e Desconto",
+      "mensagens": [
+        "[TendiChat] foi descontado o valor da devolucao e ficou faltando o cliente pagar 462 reais"
+      ],
+      "tag_esperada": "Devolução"
+    },
+    {
+      "nome": "ARMADILHA: termo generico sozinho nao e auto-aprovado",
+      "mensagens": [
+        "[TendiChat] esse pedido ficou em aberto desde ontem"
+      ],
+      "departamento": "Financeiro",
+      "tag_esperada": "Financeiro Maxdata",
+      "confianca_esperada": "baixa"
+    },
+    {
+      "nome": "ARMADILHA: termo nao pode casar entre duas mensagens",
+      "mensagens": [
+        "[TendiChat] verifiquei o cadastro do",
+        "[TendiChat] cliente ligou depois"
+      ],
+      "tag_esperada": ""
+    },
+    {
+      "nome": "Chave de ativacao",
+      "mensagens": [
+        "[TendiChat] preciso da chave de ativacao atualizada, o responsavel alterou"
+      ],
+      "tag_esperada": "Chave de Ativação",
+      "confianca_esperada": "alta"
+    },
+    {
+      "nome": "TEF",
+      "mensagens": [
+        "[TendiChat] o tef tem que ser preenchido nesse documento antes da instalacao"
+      ],
+      "tag_esperada": "Tef"
+    },
+    {
+      "nome": "Cadastro de cliente",
+      "mensagens": [
+        "[TendiChat] o rapaz que me atendeu falou que o cadastro do cliente estava incompleto"
+      ],
+      "tag_esperada": "Cadastro de cliente"
+    },
+    {
+      "nome": "Estoque por inventario",
+      "mensagens": [
+        "[TendiChat] o inventario e gerado mes a mes, vamos ter que gerar de novo"
+      ],
+      "tag_esperada": "Estoque"
+    },
+    {
+      "nome": "SEFAZ ganha de Servidor",
+      "mensagens": [
+        "[TendiChat] nao e um servidor nativo da maxdata, e da sefaz; quando ele bloqueia e porque teve muita consulta"
+      ],
+      "tag_esperada": "SEFAZ"
+    },
+    {
+      "nome": "Boleto vencido = Boleto Atualizado (ganha do financeiro)",
+      "mensagens": [
+        "[TendiChat] o boleto venceu, preciso da segunda via atualizada"
+      ],
+      "departamento": "Financeiro",
+      "tag_esperada": "Boleto Atualizado",
+      "confianca_esperada": "alta"
+    },
+    {
+      "nome": "Financeiro no dep. Financeiro = cobranca da Maxdata",
+      "mensagens": [
+        "[TendiChat] estou ligando sobre a cobranca da mensalidade do sistema"
+      ],
+      "departamento": "Financeiro",
+      "tag_esperada": "Financeiro Maxdata"
+    },
+    {
+      "nome": "Financeiro no dep. Suporte = modulo do sistema",
+      "mensagens": [
+        "[TendiChat] o contas a receber nao esta batendo com o fluxo de caixa do sistema"
+      ],
+      "departamento": "Suporte",
+      "tag_esperada": "Financeiro Sistema"
+    },
+    {
+      "nome": "Prefixo: agendar treinamento",
+      "mensagens": [
+        "[TendiChat] o cliente pediu para agendar um treinamento para a equipe nova"
+      ],
+      "tag_esperada": "Agendar treinamento"
+    },
+    {
+      "nome": "Prefixo: cancelamento de contrato",
+      "mensagens": [
+        "[TendiChat] a empresa quer cancelar o contrato a partir do mes que vem"
+      ],
+      "tag_esperada": "Cancelar Contrato"
+    },
+    {
+      "nome": "Prefixo: devolucoes no plural",
+      "mensagens": [
+        "[TendiChat] as devolucoes do mes passado nao entraram no relatorio"
+      ],
+      "tag_esperada": "Devolução"
+    },
+    {
+      "nome": "Nota do tecnico manda mais que a regra",
+      "mensagens": [
+        "[TendiChat] queria saber do boleto vencido",
+        "Inatividade"
+      ],
+      "departamento": "Financeiro",
+      "tag_esperada": "Inatividade",
+      "confianca_esperada": "alta"
+    },
+    {
+      "nome": "Sem retorno do cliente",
+      "mensagens": [
+        "[TendiChat] tentei contato tres vezes, o cliente nao retornou"
+      ],
+      "tag_esperada": "Inatividade"
+    },
+    {
+      "nome": "Historico vazio nao gera tag",
+      "mensagens": [],
+      "tag_esperada": ""
+    },
+    {
+      "nome": "MDF-e com hifen",
+      "mensagens": [
+        "[TendiChat] nao consigo encerrar o mdf-e de ontem"
+      ],
+      "tag_esperada": "mdfe"
+    },
+    {
+      "nome": "Modo 'todas' exige os termos na mesma mensagem",
+      "mensagens": [
+        "[TendiChat] preciso do boleto",
+        "[TendiChat] outro assunto: o relatorio saiu atualizado ontem"
+      ],
+      "departamento": "Financeiro",
+      "tag_esperada": "Financeiro Maxdata"
+    },
+    {
+      "nome": "Instalacao pelo verbo (tarefa 2792)",
+      "mensagens": [
+        "[TendiChat] Poderia instalar o sistema em uma nova maquina?"
+      ],
+      "departamento": "Suporte",
+      "tag_esperada": "Instalação",
+      "confianca_esperada": "alta"
+    },
+    {
+      "nome": "Instalacao: participio e gerundio",
+      "mensagens": [
+        "[TendiChat] ja terminei de instalar, o sistema esta instalado na estacao 3"
+      ],
+      "tag_esperada": "Instalação"
+    },
+    {
+      "nome": "'instalado' nao rouba de regra mais especifica",
+      "mensagens": [
+        "[TendiChat] o certificado digital foi instalado mas nao valida"
+      ],
+      "tag_esperada": "Certificado Digital"
+    },
+    {
+      "nome": "'chave atualizada' e Financeiro Maxdata, nao Chave de Ativacao (tarefa 4157)",
+      "mensagens": [
+        "[TendiChat] Bom dia",
+        "[TendiChat] 📁 [Arquivo]",
+        "[TendiChat] *Julio Cesar* | chave atualizada",
+        "[TendiChat] *Julio Cesar* | ajudo em algo mais?",
+        "[TendiChat] Obrigada"
+      ],
+      "departamento": "Financeiro",
+      "tag_esperada": "Financeiro Maxdata",
+      "confianca_esperada": "alta"
+    },
+    {
+      "nome": "'chave atualizada' com boleto compensando (tarefa 4169)",
+      "mensagens": [
+        "[TendiChat] Tem como liberar ele ate o boleto compensar",
+        "[TendiChat] *Julio Cesar* | chave atualizada"
+      ],
+      "departamento": "Financeiro",
+      "tag_esperada": "Financeiro Maxdata"
+    },
+    {
+      "nome": "'chave atualizada' no Suporte continua Financeiro Maxdata (nao Financeiro Sistema)",
+      "mensagens": [
+        "[TendiChat] o sistema bloqueou, ja paguei o boleto",
+        "[TendiChat] *Elson Jr* | Chave atualizada"
+      ],
+      "departamento": "Suporte",
+      "tag_esperada": "Financeiro Maxdata"
+    }
+  ]
+}

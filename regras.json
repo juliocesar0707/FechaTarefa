@@ -1,0 +1,776 @@
+{
+  "_leia_me": "Regras palavra-chave -> tag. As tags aqui precisam existir em tags_tasky.json (o comando 'verificar' acusa se nao existir). TERMOS: texto simples casa PALAVRA INTEIRA ('carne' nao casa dentro de 'dicarnes'); termine com '*' para casar por prefixo ('agend*' pega agendar/agendamento); prefixe com 're:' para regex. A comparacao ignora maiusculas e acentos - escreva sem acento. 'modo': 'qualquer' (basta um termo) ou 'todas' (todos na MESMA mensagem). 'prioridade': maior vence. 'palavras_fracas': termos genericos demais para decidir sozinhos - se so eles baterem, a linha sai com confianca 'baixa' e NAO e pre-aprovada. 'tag_por_departamento' sobrepoe a tag conforme o departamento da tarefa. REGRA DO JULIO: tudo que for financeiro recebe a tag 'Financeiro Maxdata'. As unicas excecoes financeiras acima dela sao 'Boleto Atualizado' e 'Homologacao boleto'. 'disputa_ok': nomes de regras cuja concorrencia ja foi decidida de proposito - elas nao rebaixam a confianca (ex.: 'boleto vencido' e Boleto Atualizado, nao financeiro).",
+  "regras": [
+    {
+      "nome": "Certificado digital",
+      "tag": "Certificado Digital",
+      "prioridade": 90,
+      "modo": "qualquer",
+      "palavras": [
+        "certificado digital",
+        "certificado vencid*",
+        "certificado a1",
+        "certificado a3",
+        "renovacao do certificado"
+      ]
+    },
+    {
+      "nome": "Chave atualizada",
+      "tag": "Financeiro Maxdata",
+      "prioridade": 91,
+      "modo": "qualquer",
+      "palavras": [
+        "chave atualizada",
+        "chave foi atualizada",
+        "atualizei a chave"
+      ],
+      "_nota": "liberar a chave depois do pagamento e financeiro da Maxdata, nao 'Chave de Ativacao' - em qualquer departamento (sem tag_por_departamento: no Suporte nao vira Financeiro Sistema)",
+      "disputa_ok": [
+        "Chave de ativacao"
+      ]
+    },
+    {
+      "nome": "Chave de ativacao",
+      "tag": "Chave de Ativação",
+      "prioridade": 90,
+      "modo": "qualquer",
+      "palavras": [
+        "chave de ativacao",
+        "liberar a chave",
+        "chave expirada",
+        "ativacao do sistema"
+      ]
+    },
+    {
+      "nome": "MDF-e",
+      "tag": "mdfe",
+      "prioridade": 85,
+      "modo": "qualquer",
+      "palavras": [
+        "mdfe",
+        "mdf-e",
+        "manifesto eletronico"
+      ]
+    },
+    {
+      "nome": "CT-e",
+      "tag": "CTE",
+      "prioridade": 85,
+      "modo": "qualquer",
+      "palavras": [
+        "cte",
+        "ct-e",
+        "conhecimento de transporte"
+      ]
+    },
+    {
+      "nome": "NFC-e",
+      "tag": "Nfce",
+      "prioridade": 84,
+      "modo": "qualquer",
+      "palavras": [
+        "nfce",
+        "nfc-e",
+        "cupom fiscal eletronico"
+      ]
+    },
+    {
+      "nome": "NFS-e",
+      "tag": "Nfs-e",
+      "prioridade": 84,
+      "modo": "qualquer",
+      "palavras": [
+        "nfse",
+        "nfs-e",
+        "nota de servico"
+      ]
+    },
+    {
+      "nome": "Nota fiscal de entrada",
+      "tag": "Nota Fiscal de Entrada",
+      "prioridade": 83,
+      "modo": "qualquer",
+      "palavras": [
+        "nota de entrada",
+        "nota fiscal de entrada",
+        "entrada de nota",
+        "importar xml da nota",
+        "re:dando entrada .{0,15}nota",
+        "re:entrada d[ae] .{0,10}nota",
+        "lancar a nota"
+      ]
+    },
+    {
+      "nome": "NF destinadas",
+      "tag": "NF Destinadas",
+      "prioridade": 83,
+      "modo": "qualquer",
+      "palavras": [
+        "nf destinadas",
+        "notas destinadas",
+        "manifestacao do destinatario"
+      ]
+    },
+    {
+      "nome": "NF-e",
+      "tag": "Nfe",
+      "prioridade": 80,
+      "modo": "qualquer",
+      "palavras": [
+        "nfe",
+        "nf-e",
+        "nota fiscal eletronica",
+        "danfe"
+      ]
+    },
+    {
+      "nome": "SEFAZ",
+      "tag": "SEFAZ",
+      "prioridade": 78,
+      "modo": "qualquer",
+      "palavras": [
+        "sefaz",
+        "rejeic*",
+        "webservice da sefaz",
+        "re:rejeicao \\d+"
+      ]
+    },
+    {
+      "nome": "SPED",
+      "tag": "Sped",
+      "prioridade": 78,
+      "modo": "qualquer",
+      "palavras": [
+        "sped",
+        "efd",
+        "bloco k",
+        "escrituracao fiscal"
+      ]
+    },
+    {
+      "nome": "Reforma tributaria",
+      "tag": "Reforma Tributária",
+      "prioridade": 78,
+      "modo": "qualquer",
+      "palavras": [
+        "reforma tributaria",
+        "ibs",
+        "cbs"
+      ]
+    },
+    {
+      "nome": "Config CFOP",
+      "tag": "Config CFOP",
+      "prioridade": 77,
+      "modo": "qualquer",
+      "palavras": [
+        "cfop",
+        "configurar cfop",
+        "natureza de operacao"
+      ]
+    },
+    {
+      "nome": "TEF",
+      "tag": "Tef",
+      "prioridade": 76,
+      "modo": "qualquer",
+      "palavras": [
+        "tef",
+        "sitef",
+        "pinpad nao responde",
+        "transacao nao autorizada"
+      ]
+    },
+    {
+      "nome": "Boleto atualizado",
+      "tag": "Boleto Atualizado",
+      "prioridade": 72,
+      "modo": "todas",
+      "palavras": [
+        "boleto*",
+        "re:(atualiz|segunda via|2a via|vencid)"
+      ],
+      "disputa_ok": [
+        "Financeiro (padrao)"
+      ]
+    },
+    {
+      "nome": "Homologacao de boleto",
+      "tag": "Homologação boleto",
+      "prioridade": 74,
+      "modo": "todas",
+      "palavras": [
+        "boleto*",
+        "homologa*"
+      ],
+      "_nota": "acima de Boleto Atualizado: homologacao e mais especifica que 2a via/vencido",
+      "disputa_ok": [
+        "Financeiro (padrao)"
+      ]
+    },
+    {
+      "nome": "Balanca",
+      "tag": "Balança",
+      "prioridade": 68,
+      "modo": "qualquer",
+      "palavras": [
+        "balanca*",
+        "toledo",
+        "filizola",
+        "etiqueta da balanca*"
+      ]
+    },
+    {
+      "nome": "Parametrizacao de balanca",
+      "tag": "Parametrização Balança",
+      "prioridade": 69,
+      "modo": "todas",
+      "palavras": [
+        "balanca*",
+        "re:(parametriz|configur|layout)"
+      ]
+    },
+    {
+      "nome": "Backup",
+      "tag": "Backup",
+      "prioridade": 66,
+      "modo": "qualquer",
+      "palavras": [
+        "backup*",
+        "restaurar a base",
+        "restore do banco"
+      ]
+    },
+    {
+      "nome": "VPN",
+      "tag": "VPN",
+      "prioridade": 66,
+      "modo": "qualquer",
+      "palavras": [
+        "vpn",
+        "acesso remoto via vpn"
+      ]
+    },
+    {
+      "nome": "ODBC",
+      "tag": "ODBC",
+      "prioridade": 66,
+      "modo": "qualquer",
+      "palavras": [
+        "odbc",
+        "driver de conexao"
+      ]
+    },
+    {
+      "nome": "Erro de conexao com servidor",
+      "tag": "Erro de conexão com servidor",
+      "prioridade": 65,
+      "modo": "qualquer",
+      "palavras": [
+        "erro de conexao",
+        "nao conecta ao servidor",
+        "sem conexao com o servidor",
+        "servidor fora do ar",
+        "conexao com o banco"
+      ]
+    },
+    {
+      "nome": "Servidor",
+      "tag": "Servidor",
+      "prioridade": 60,
+      "modo": "qualquer",
+      "palavras": [
+        "servidor*",
+        "reiniciar o servico",
+        "maquina servidora"
+      ],
+      "palavras_fracas": [
+        "servidor*"
+      ]
+    },
+    {
+      "nome": "SQL",
+      "tag": "SQL",
+      "prioridade": 62,
+      "modo": "qualquer",
+      "palavras": [
+        "sql",
+        "firebird",
+        "consulta no banco",
+        "select",
+        "banco de dados"
+      ]
+    },
+    {
+      "nome": "UPDATE / INSERT",
+      "tag": "UPDATE / INSERT",
+      "prioridade": 64,
+      "modo": "qualquer",
+      "palavras": [
+        "update",
+        "insert",
+        "script no banco",
+        "rodei o script"
+      ]
+    },
+    {
+      "nome": "Atualizacao de versao",
+      "tag": "Atualização",
+      "prioridade": 58,
+      "modo": "qualquer",
+      "palavras": [
+        "atualizacao do sistema",
+        "atualizar a versao",
+        "nova versao",
+        "update do sistema"
+      ]
+    },
+    {
+      "nome": "Instalacao",
+      "tag": "Instalação",
+      "prioridade": 58,
+      "modo": "qualquer",
+      "palavras": [
+        "instal*",
+        "reinstal*",
+        "instalar a estacao",
+        "instalei o sistema"
+      ],
+      "_nota": "'instal*' cobre o verbo: instalar/instalando/instalado/instalacao. So o substantivo 'instalacao' deixava passar 'poderia instalar o sistema numa maquina nova'."
+    },
+    {
+      "nome": "Migracao",
+      "tag": "Migração",
+      "prioridade": 58,
+      "modo": "qualquer",
+      "palavras": [
+        "migrac*",
+        "migrar a base",
+        "troca de servidor"
+      ]
+    },
+    {
+      "nome": "Inicializacao do sistema",
+      "tag": "Inicialização do Sistema",
+      "prioridade": 57,
+      "modo": "qualquer",
+      "palavras": [
+        "nao abre o sistema",
+        "erro ao iniciar",
+        "nao inicializa",
+        "trava na abertura"
+      ]
+    },
+    {
+      "nome": "Controle de acesso",
+      "tag": "Controle de Acesso",
+      "prioridade": 56,
+      "modo": "qualquer",
+      "palavras": [
+        "permissao de acesso",
+        "liberar permissao",
+        "sem permissao",
+        "controle de acesso"
+      ]
+    },
+    {
+      "nome": "Usuario",
+      "tag": "Usuário",
+      "prioridade": 50,
+      "modo": "qualquer",
+      "palavras": [
+        "criar usuario",
+        "novo usuario",
+        "senha do usuario",
+        "resetar a senha",
+        "usuario bloqueado"
+      ]
+    },
+    {
+      "nome": "PDV",
+      "tag": "Pdv",
+      "prioridade": 55,
+      "modo": "qualquer",
+      "palavras": [
+        "pdv",
+        "frente de caixa",
+        "ponto de venda"
+      ]
+    },
+    {
+      "nome": "Caixa",
+      "tag": "Caixa",
+      "prioridade": 52,
+      "modo": "qualquer",
+      "palavras": [
+        "fechamento de caixa",
+        "abertura de caixa",
+        "sangria",
+        "caixa nao fecha"
+      ]
+    },
+    {
+      "nome": "Estoque",
+      "tag": "Estoque",
+      "prioridade": 52,
+      "modo": "qualquer",
+      "palavras": [
+        "estoque*",
+        "inventario*",
+        "saldo do produto",
+        "ajuste de estoque*"
+      ]
+    },
+    {
+      "nome": "Cadastro de produto",
+      "tag": "cadastro de produto",
+      "prioridade": 54,
+      "modo": "qualquer",
+      "palavras": [
+        "cadastro de produto",
+        "cadastrar produto",
+        "cadastro do item"
+      ]
+    },
+    {
+      "nome": "Cadastro de cliente",
+      "tag": "Cadastro de cliente",
+      "prioridade": 54,
+      "modo": "qualquer",
+      "palavras": [
+        "cadastro de cliente",
+        "cadastrar cliente",
+        "cadastro do cliente"
+      ]
+    },
+    {
+      "nome": "Cancelar venda",
+      "tag": "Cancelar venda",
+      "prioridade": 60,
+      "modo": "qualquer",
+      "palavras": [
+        "cancelar a venda",
+        "cancelamento de venda",
+        "cancelar o pedido"
+      ]
+    },
+    {
+      "nome": "Devolucao",
+      "tag": "Devolução",
+      "prioridade": 60,
+      "modo": "qualquer",
+      "palavras": [
+        "devoluc*",
+        "nota de devoluc*",
+        "devolver mercadoria"
+      ]
+    },
+    {
+      "nome": "Estorno",
+      "tag": "estorno",
+      "prioridade": 60,
+      "modo": "qualquer",
+      "palavras": [
+        "estorn*"
+      ]
+    },
+    {
+      "nome": "Transferencia",
+      "tag": "Transferencia",
+      "prioridade": 58,
+      "modo": "qualquer",
+      "palavras": [
+        "transferencia entre lojas",
+        "transferencia de estoque*",
+        "transferir mercadoria"
+      ]
+    },
+    {
+      "nome": "Desconto",
+      "tag": "Desconto",
+      "prioridade": 50,
+      "modo": "qualquer",
+      "palavras": [
+        "desconto*",
+        "liberar desconto"
+      ]
+    },
+    {
+      "nome": "Relatorios",
+      "tag": "Relatórios",
+      "prioridade": 50,
+      "modo": "qualquer",
+      "palavras": [
+        "relatorio",
+        "relatorios"
+      ]
+    },
+    {
+      "nome": "Power BI",
+      "tag": "Power BI",
+      "prioridade": 62,
+      "modo": "qualquer",
+      "palavras": [
+        "power bi",
+        "powerbi",
+        "dashboard do bi"
+      ]
+    },
+    {
+      "nome": "API",
+      "tag": "API",
+      "prioridade": 62,
+      "modo": "qualquer",
+      "palavras": [
+        "api",
+        "token de integracao",
+        "endpoint"
+      ]
+    },
+    {
+      "nome": "Integracao",
+      "tag": "Integração",
+      "prioridade": 55,
+      "modo": "qualquer",
+      "palavras": [
+        "integrac*",
+        "integrar com"
+      ]
+    },
+    {
+      "nome": "Max Vendas",
+      "tag": "Max Vendas",
+      "prioridade": 64,
+      "modo": "qualquer",
+      "palavras": [
+        "max vendas",
+        "maxvendas",
+        "forca de vendas"
+      ]
+    },
+    {
+      "nome": "Max Hub",
+      "tag": "Max_Hub",
+      "prioridade": 64,
+      "modo": "qualquer",
+      "palavras": [
+        "max hub",
+        "maxhub",
+        "max_hub"
+      ]
+    },
+    {
+      "nome": "Automax",
+      "tag": "Automax",
+      "prioridade": 64,
+      "modo": "qualquer",
+      "palavras": [
+        "automax"
+      ]
+    },
+    {
+      "nome": "Manager configuracao",
+      "tag": "Manager Configuração",
+      "prioridade": 63,
+      "modo": "todas",
+      "palavras": [
+        "manager",
+        "re:(configur|parametr)"
+      ]
+    },
+    {
+      "nome": "Manager",
+      "tag": "Manager",
+      "prioridade": 60,
+      "modo": "qualquer",
+      "palavras": [
+        "manager"
+      ]
+    },
+    {
+      "nome": "O.S Manager",
+      "tag": "O.S MANAGER",
+      "prioridade": 65,
+      "modo": "todas",
+      "palavras": [
+        "manager",
+        "re:(ordem de servico|o\\.?s\\b)"
+      ]
+    },
+    {
+      "nome": "Skytins",
+      "tag": "Skytins",
+      "prioridade": 64,
+      "modo": "qualquer",
+      "palavras": [
+        "skytins"
+      ]
+    },
+    {
+      "nome": "RTM",
+      "tag": "Rtm",
+      "prioridade": 64,
+      "modo": "qualquer",
+      "palavras": [
+        "rtm"
+      ]
+    },
+    {
+      "nome": "Contabilidade",
+      "tag": "Contabilidade",
+      "prioridade": 50,
+      "modo": "qualquer",
+      "palavras": [
+        "contabilidade",
+        "contador",
+        "arquivo para o contador"
+      ]
+    },
+    {
+      "nome": "Contrato",
+      "tag": "Contrato",
+      "prioridade": 48,
+      "modo": "qualquer",
+      "palavras": [
+        "contrato*"
+      ],
+      "palavras_fracas": [
+        "contrato*"
+      ]
+    },
+    {
+      "nome": "Cancelar contrato",
+      "tag": "Cancelar Contrato",
+      "prioridade": 70,
+      "modo": "todas",
+      "palavras": [
+        "contrato*",
+        "cancel*"
+      ]
+    },
+    {
+      "nome": "Treinamento",
+      "tag": "Treinamento",
+      "prioridade": 46,
+      "modo": "qualquer",
+      "palavras": [
+        "treinamento*",
+        "treinar o usuario",
+        "passei o treinamento"
+      ]
+    },
+    {
+      "nome": "Agendar treinamento",
+      "tag": "Agendar treinamento",
+      "prioridade": 71,
+      "modo": "todas",
+      "palavras": [
+        "treinamento*",
+        "agend*"
+      ]
+    },
+    {
+      "nome": "Duvida",
+      "tag": "Duvida",
+      "prioridade": 20,
+      "modo": "qualquer",
+      "palavras": [
+        "re:(tirar|tira|tenho|fiquei com|uma|minha|sanar) duvida",
+        "duvida sobre",
+        "duvida quanto",
+        "orientei o cliente",
+        "orientacao ao usuario",
+        "explicado ao cliente"
+      ],
+      "_nota": "'duvida' solto casava com a despedida 'qualquer duvida estamos a disposicao', que aparece em quase todo atendimento"
+    },
+    {
+      "nome": "Inatividade / sem retorno",
+      "tag": "Inatividade",
+      "prioridade": 15,
+      "modo": "qualquer",
+      "palavras": [
+        "inatividade",
+        "sem retorno",
+        "nao respondeu",
+        "cliente nao retornou",
+        "sem contato",
+        "tentativa de contato sem sucesso"
+      ]
+    },
+    {
+      "nome": "Sem tarefa",
+      "tag": "SEM TAREFA",
+      "prioridade": 5,
+      "modo": "qualquer",
+      "palavras": [
+        "sem tarefa",
+        "sem demanda",
+        "aberto por engano",
+        "nao havia tarefa",
+        "nao havia demanda",
+        "sem necessidade de tarefa"
+      ],
+      "_nota": "prioridade baixa de proposito: so vale quando nenhuma regra de assunto bate"
+    },
+    {
+      "nome": "PIX no pinpad / TEF",
+      "tag": "pix pinpad",
+      "prioridade": 76,
+      "modo": "todas",
+      "palavras": [
+        "pix",
+        "re:(pinpad|pin pad|tef|maquineta|cart[ãa]o)"
+      ]
+    },
+    {
+      "nome": "Financeiro (padrao)",
+      "tag": "Financeiro Maxdata",
+      "prioridade": 68,
+      "modo": "qualquer",
+      "palavras": [
+        "financeiro",
+        "boleto*",
+        "carne",
+        "cobranc*",
+        "remessa*",
+        "retorno bancario",
+        "cnab",
+        "contas a pagar",
+        "contas a receber",
+        "fluxo de caixa",
+        "fatura*",
+        "mensalidade*",
+        "parcela em aberto",
+        "parcelas em aberto",
+        "em aberto",
+        "segunda via",
+        "2a via",
+        "pagamento*",
+        "pago*",
+        "vencimento*",
+        "vencid*",
+        "inadimplen*",
+        "negociacao de divida",
+        "plano de contas",
+        "pix"
+      ],
+      "tag_por_departamento": {
+        "Suporte": "Financeiro Sistema",
+        "Comercial": "Financeiro Sistema"
+      },
+      "_nota": "dep. Financeiro = cobranca da Maxdata -> 'Financeiro Maxdata'; dep. Suporte = modulo financeiro do sistema -> 'Financeiro Sistema'",
+      "palavras_fracas": [
+        "em aberto",
+        "pago*",
+        "pagamento*",
+        "vencimento*",
+        "vencid*",
+        "carne",
+        "fatura*",
+        "segunda via",
+        "2a via"
+      ]
+    }
+  ]
+}

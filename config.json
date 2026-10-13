@@ -1,0 +1,124 @@
+{
+  "_leia_me": "Seletores verificados na tela real do Tasky em 01/09/2026 (lista, detalhe da tarefa, editor de tag e botao Concluir).",
+  "url_login": "https://maxdatafortaleza.com.br/login",
+  "url_tarefas": "https://maxdatafortaleza.com.br/tarefas",
+  "url_sessao": "https://maxdatafortaleza.com.br/api/auth/session",
+  "_url_sessao_ajuda": "Endpoint do Tasky que diz quem esta logado (id e nome). E dele que sai o filtro 'logado'.",
+  "filtro_tecnico": "logado",
+  "filtro_tecnico_nome": "",
+  "_filtro_tecnico_ajuda": "'logado' = filtra pela pessoa que fez o 'login' (o id da sessao e o value do filtro: Julio Cesar = 3, Elson Jr = 2) - cada analista ve a propria fila. Um value fixo ('3') = sempre a fila daquele tecnico, quem quer que esteja logado. Vazio ('') = nao filtrar.",
+  "_filtro_tecnico_nome_ajuda": "So com value fixo: confere o nome que o filtro selecionou (nome inteiro, sem acento/maiuscula - 'Elson' nao aceita 'Elson Jr'). Com 'logado' o nome vem da sessao. Vazio ('') = nao conferir.",
+  "colunas": [
+    "Pendente"
+  ],
+  "_colunas_ajuda": "Colunas do Kanban a varrer. Existem: 'Em espera', 'Trabalhando', 'Pendente', 'Aguardando terceiros'. Vazio ([]) = pagina inteira.",
+  "filtro_texto_card": "[TendiChat]",
+  "_filtro_texto_ajuda": "So considera cards cujo texto contenha isso. Vazio ('') = todos os cards da coluna.",
+  "ignorar_blocos": [
+    "re:\\*assistente\\*",
+    "re:voce escolheu a opcao",
+    "re:ticket encerrado no tendichat",
+    "re:\\[menu\\]",
+    "re:selecione o departamento",
+    "re:bem-vindo\\(a\\) a maxdata",
+    "re:^\\s*\\[tendichat\\]\\s*(🖼️)?\\s*\\[(imagem|audio|video|documento)\\]\\s*$"
+  ],
+  "_ignorar_ajuda": "Mensagens do historico descartadas antes de casar as regras (menu do bot, avisos automaticos, anexos sem texto). Comparacao sem acentos e em minusculas.",
+  "timeout_ms": 20000,
+  "slow_mo_ms": 0,
+  "pausa_entre_tarefas_ms": 1200,
+  "seletores": {
+    "filtro_tecnico": [
+      "select:has(option:text-is('Todos os técnicos'))"
+    ],
+    "coluna": [
+      "div.rounded-xl.border.p-3.space-y-2:not(.shadow-sm):has(span:text-is('{coluna}'))"
+    ],
+    "lista_tarefas": [
+      "div.bg-white.rounded-xl.shadow-sm.p-3"
+    ],
+    "link_tarefa": [
+      "a[href^='/tarefas/']"
+    ],
+    "titulo_tarefa": [
+      "main h1"
+    ],
+    "historico": [
+      "div.post-content"
+    ],
+    "tags_ja_aplicadas": [
+      "div.flex.flex-wrap.gap-1\\.5 > span[style*='background-color']",
+      "span.rounded-full[style*='background-color']"
+    ],
+    "botao_editar": [
+      "button[title='Editar tarefa']"
+    ],
+    "abrir_campo_tag": [
+      "button:text-is('Tag')"
+    ],
+    "popover_tag": [
+      "div.absolute.z-50:has(input[placeholder='Buscar tag...'])"
+    ],
+    "busca_tag": [
+      "input[placeholder='Buscar tag...']"
+    ],
+    "botao_salvar": [
+      "button:text-is('Salvar')"
+    ],
+    "botao_fechar": [
+      "button.bg-green-600:text-is('Concluir')"
+    ],
+    "botao_confirmar": [
+      "[role='dialog'] button:has-text('Confirmar')",
+      "[role='dialog'] button:has-text('Sim')"
+    ],
+    "departamento": [
+      "span.bg-indigo-50.text-indigo-600"
+    ],
+    "botao_cancelar": [
+      "button.bg-red-600:text-is('Cancelar')",
+      "button:text-is('Cancelar')"
+    ],
+    "modal_cancelar": [
+      "div.fixed:has(h2:text-is('Cancelar'))"
+    ],
+    "motivo_cancelar": [
+      "textarea[placeholder*='cancelamento']",
+      "textarea"
+    ],
+    "confirmar_cancelar": [
+      "button:text-is('Confirmar cancelamento')"
+    ],
+    "sem_responsavel": [
+      ":text-is('Sem responsável')"
+    ]
+  },
+  "cancelar": {
+    "filtro_tecnico": "sem",
+    "filtro_tecnico_nome": "Sem responsável",
+    "motivo": "sem tarefa"
+  },
+  "_cancelar_ajuda": "Comando 'cancelar': filtra a fila por 'Sem responsavel' (option value 'sem'), clica em Cancelar em cada tarefa e digita 'motivo' no campo do modal. Antes de cancelar, confere na tela da tarefa que ela continua sem responsavel.",
+  "aprovar_automatico": "alta",
+  "_aprovar_automatico_ajuda": "Confianca minima para o 'analisar' ja marcar a linha com 'x': 'alta' (so o que ganhou sozinho e com termo especifico), 'media', 'baixa' ou 'nunca' (nada pre-marcado). Quanto mais alto, menos risco de tag errada e mais conferencia manual.",
+  "margem_disputa": 8,
+  "_margem_disputa_ajuda": "Se outra regra com tag DIFERENTE bater com prioridade dentro dessa margem, a sugestao vira confianca 'baixa' e a tag concorrente aparece na coluna 'alternativas'.",
+  "limpar_texto": [
+    "\\S+@\\S+",
+    "https?://\\S+",
+    "www\\.\\S+",
+    "pro-\\d{4}/\\d+",
+    "\\(?\\d{2}\\)?\\s*9?\\d{4}[-\\s]?\\d{4}",
+    "\\*[^*]{2,40}\\*",
+    "\\[tendichat\\]"
+  ],
+  "_limpar_texto_ajuda": "Trechos apagados de cada mensagem ANTES de casar as regras: e-mails, links, protocolo, telefone, marcador de autor (*julio cesar*) e o prefixo [TendiChat]. Sem isso a assinatura 'financeiro@maxdatafortaleza.com.br' marcava a tarefa como financeira.",
+  "concluir_com_aviso": true,
+  "_concluir_com_aviso_ajuda": "true = clica OK no confirm() do Tasky e conclui mesmo assim, mas SO nos avisos listados em 'avisos_aceitos'. false = recusa e deixa a tarefa aberta. Qualquer aviso fora da lista continua sendo recusado - so '--forcar' na linha de comando aceita tudo.",
+  "avisos_aceitos": [
+    "mensagem\\(ns\\) nao lida",
+    "mensagens nao lidas",
+    "mensagem nao lida"
+  ],
+  "_avisos_aceitos_ajuda": "Avisos do Tasky que podem ser aceitos automaticamente (regex, sem acento e minusculo). Um confirm() desconhecido pode ser outra coisa (apagar, descartar), por isso a lista e fechada. Toda tarefa fechada por cima de um aviso fica anotada no log_aplicacao.csv."
+}
